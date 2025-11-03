@@ -74,7 +74,7 @@ ln -fs /usr/share/zoneinfo/Asia/Kuala_Lumpur /etc/localtime
 # set locale
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 
-apt install linux-image-rt-amd64
+apt install linux-image-rt-amd64 -y
 
 # install
 apt-get --reinstall --fix-missing install -y bzip2 gzip coreutils wget screen rsyslog iftop htop net-tools zip unzip wget net-tools curl nano sed screen gnupg gnupg1 bc apt-transport-https build-essential dirmngr libxml-parser-perl neofetch git lsof
@@ -87,17 +87,18 @@ net.core.default_qdisc = fq_codel
 net.ipv4.tcp_congestion_control = bbr
 sudo sysctl --system
 
-sudo apt install cpufrequtils
+sudo apt install cpufrequtils -y
 echo 'GOVERNOR="performance"' | sudo tee /etc/default/cpufrequtils
 sudo systemctl restart cpufrequtils
 
-# Kurangkan coalescing untuk latensi lebih rendah (boleh naikkan penggunaan CPU)
-sudo ethtool -C eth0 rx-usecs 0 tx-usecs 0
 # Cuba matikan penggabungan paket
 sudo ethtool -K eth0 gro off lro off gso off tso off
 
 sudo apt install irqbalance
 sudo systemctl enable --now irqbalance
+
+apt install htop -y
+apt install iftop -y
 
 # install webserver
 apt -y install nginx
